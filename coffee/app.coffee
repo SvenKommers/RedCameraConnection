@@ -1,6 +1,5 @@
-
-Connection = require('./redCamera.js')
 server = require('./web.js')
+Connection = require('./redCamera.js')
 connections = []
 nrOfConnections = 2
 
@@ -15,6 +14,7 @@ while i <= nrOfConnections
     console.log("app.js #{connections.indexOf(this)} (statusVB): #{data}"))
   i++
 
+
 server.start(connections)
 ###
 camera2.on('data',(data)->
@@ -24,7 +24,6 @@ camera2.on('status',(data)->
 camera2.on('statusVB',(data)->
   console.log("app.js 2 (statusVB): #{data}"))
 ###
-
 
 process.stdin.setEncoding('utf8')
 

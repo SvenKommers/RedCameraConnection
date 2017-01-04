@@ -2,9 +2,9 @@
 (function() {
   var Connection, connections, i, nrOfConnections, server;
 
-  Connection = require('./redCamera.js');
-
   server = require('./web.js');
+
+  Connection = require('./redCamera.js');
 
   connections = [];
 

@@ -52,6 +52,7 @@ class RedCameraConnection
   ###
   #Connect Function                  #port is temp
   connect: (ip,autoReconnect,timeout,port) =>
+    console.log('connect')
     consoleOutput("connection triggerd to #{ip} \t
     autoReconnect:#{autoReconnect} \t timeout: #{timeout}")
     if port

@@ -68,6 +68,7 @@
      */
 
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
+      console.log('connect');
       consoleOutput("connection triggerd to " + ip + " \t autoReconnect:" + autoReconnect + " \t timeout: " + timeout);
       if (port) {
         this.port = port;
