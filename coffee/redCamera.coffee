@@ -5,7 +5,7 @@ util = require('util');
 redFunctions = require('./redFunctions.js')
 
 class RedCameraConnection
-  constructor: (@id)->
+  constructor: ()->
     @connection= new ipConnection()
     @status= {
       lists:[]
@@ -17,10 +17,11 @@ class RedCameraConnection
     @timeout=1000        #a emit is made every 300ms
     @autoReconnect= yes  #in case of timeout
     @verbose= yes        #for log msg
-
+  console.log("#{@timeout}")
   #create a 200 char buffer filled with 0's
   buffer: Buffer.alloc(200,0,'base64')
-  @.connection.on('status',(data)=>
+  ###
+  @connection.on('status',(data)=>
   #send it out
     @.emit('status',data)
     switch data
@@ -48,6 +49,7 @@ class RedCameraConnection
     @.buffer += data
     @.buffer = handelData(@.buffer,@)
   )
+  ###
   #Connect Function                  #port is temp
   connect: (ip,autoReconnect,timeout,port) =>
     consoleOutput("connection triggerd to #{ip} \t

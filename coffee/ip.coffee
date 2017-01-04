@@ -44,7 +44,6 @@ class Connection
       @.timeout = timeout
     else
       @.emit('statusVb',"timeout has no or a non interger value using default value of #{timeout}")
-
     #start te connection
     @.client = new net.connect(@.port,@.ip,()=>
       #no delay on for color timeing

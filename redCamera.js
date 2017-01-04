@@ -14,8 +14,7 @@
   RedCameraConnection = (function() {
     var handelData, handelParsedString, parseDataForTransmit;
 
-    function RedCameraConnection(id) {
-      this.id = id;
+    function RedCameraConnection() {
       this.sendCommand = bind(this.sendCommand, this);
       this.disconnect = bind(this.disconnect, this);
       this.connect = bind(this.connect, this);
@@ -32,35 +31,41 @@
       this.verbose = true;
     }
 
+    console.log("" + RedCameraConnection.timeout);
+
     RedCameraConnection.prototype.buffer = Buffer.alloc(200, 0, 'base64');
 
-    RedCameraConnection.connection.on('status', function(data) {
-      RedCameraConnection.emit('status', data);
-      switch (data) {
-        case 2:
-          getInitialInfo();
-          RedCameraConnection.status.connected = true;
-          break;
-        default:
-          RedCameraConnection.status.lists = [];
-          RedCameraConnection.status.current = [];
-          RedCameraConnection.status.notify = [];
-      }
-      if (data !== 2) {
-        return RedCameraConnection.status.connected = false;
-      }
-    });
 
-    RedCameraConnection.connection.on('statusVb', function(data) {
-      RedCameraConnection.emit('statusVB', data);
-      return consoleOutput(data);
-    });
-
-    RedCameraConnection.connection.on('data', function(data) {
-      RedCameraConnection.emit('data', data);
-      RedCameraConnection.buffer += data;
-      return RedCameraConnection.buffer = handelData(RedCameraConnection.buffer, RedCameraConnection);
-    });
+    /*
+    @connection.on('status',(data)=>
+    #send it out
+      @.emit('status',data)
+      switch data
+        when 2
+          getInitialInfo()
+          @.status.connected = true
+        else
+          #if not connected return the value's to empty
+          @status.lists = []
+          @status.current = []
+          @status.notify = []
+    
+      if data != 2 then @.status.connected = false
+      )
+    
+    #on a verbose status
+    @.connection.on('statusVb',(data)=>
+      @.emit('statusVB',data)
+      consoleOutput(data))
+    
+    #on data
+    @.connection.on('data',(data)=>
+      @.emit('data',data)
+      #add data to buffer
+      @.buffer += data
+      @.buffer = handelData(@.buffer,@)
+    )
+     */
 
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
       consoleOutput("connection triggerd to " + ip + " \t autoReconnect:" + autoReconnect + " \t timeout: " + timeout);
