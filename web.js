@@ -8,21 +8,34 @@
 
   module.exports = {
     start: function(cameras) {
-      app.get('/connect1', function(req, res) {
-        cameras[1].connect('127.0.0.1', true, 0, 8888);
-        return res.end("connecting1\n");
+      app.get('/connect', function(req, res) {
+        var id;
+        id = req.query.id;
+        if (id) {
+          cameras[id].connect('127.0.0.1', true, 0, 8888);
+          return res.end("connecting " + id + "\n");
+        } else {
+          return res.status(404).json('no camera found, use ?id=');
+        }
       });
-      app.get('/connect2', function(req, res) {
-        cameras[2].connect('127.0.0.1', true, 0, 8889);
-        return res.end("connecting2\n");
+      app.get('/disconnect', function(req, res) {
+        var id;
+        id = req.query.id;
+        if (id) {
+          cameras[id].disconnect();
+          return res.end("disconnecting1\n");
+        } else {
+          return res.status(404).json('no camera found, use ?id=');
+        }
       });
-      app.get('/disconnect1', function(req, res) {
-        cameras[1].disconnect();
-        return res.end("disconnecting1\n");
-      });
-      app.get('/disconnect2', function(req, res) {
-        cameras[2].disconnect();
-        return res.end("disconnecting2\n");
+      app.get('/status', function(req, res) {
+        var id;
+        id = req.query.id;
+        if (id) {
+          return res.status(200).json(cameras[id].status);
+        } else {
+          return res.status(404).json('no camera found, use ?id=');
+        }
       });
       return app.listen(3000, function() {
         return console.log('Example app listening on port 3000!');
