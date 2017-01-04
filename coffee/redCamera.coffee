@@ -118,7 +118,7 @@ class RedCameraConnection
       target = "current"
     #need to send out msg
     if target
-      thisRef.emit(parsedString[2],parsedString[3],parsedString[4])
+      thisRef.emit("cameraStatusUpdate",parsedString[2],parsedString[3],parsedString[4])
       thisRef.status[target][parsedString[3]] = parsedString[4]
     if parsedString[3] == "XXX"
       console.log('bla')
