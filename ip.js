@@ -27,21 +27,43 @@ Status List
       this.disconnect = bind(this.disconnect, this);
       this.reconnect = bind(this.reconnect, this);
       this.connect = bind(this.connect, this);
+      this.ip = '127.0.0.1';
+      this.port = 23;
+      this.timeout = 0;
+      this.autoReconnect = true;
+      this.autoReconnectTime = 5000;
+      this.client = new net.Socket();
+      this.noDelay = true;
+      this.client.on('data', (function(_this) {
+        return function(resData) {
+          return _this.emit('data', resData);
+        };
+      })(this));
+      this.client.on('timeout', (function(_this) {
+        return function() {
+          _this.emit('status', 4);
+          return _this.emit('statusVb', "timeout on connection to " + _this.ip + " " + _this.port);
+        };
+      })(this));
+      this.client.on('end', (function(_this) {
+        return function() {
+          _this.emit('statusVb', "end");
+          _this.emit('status', 0);
+          if (_this.autoReconnect && !_this.manualDisconnect) {
+            return _this.reconnect();
+          }
+        };
+      })(this));
+      this.client.on('error', (function(_this) {
+        return function(data) {
+          _this.emit('statusVb', "error " + data);
+          _this.emit('status', 6);
+          if (_this.autoReconnect) {
+            return _this.reconnect();
+          }
+        };
+      })(this));
     }
-
-    Connection.prototype.ip = '127.0.0.1';
-
-    Connection.prototype.port = 23;
-
-    Connection.prototype.timeout = 0;
-
-    Connection.prototype.autoReconnect = true;
-
-    Connection.prototype.autoReconnectTime = 5000;
-
-    Connection.prototype.client = null;
-
-    Connection.prototype.noDelay = true;
 
     Connection.prototype.connect = function(ip, port, timeout) {
       if (ip == null) {
@@ -53,6 +75,7 @@ Status List
       if (timeout == null) {
         timeout = this.timeout;
       }
+      console.log("reconnect = " + this.autoReconnectTime);
       if (net.isIP(ip)) {
         this.ip = ip;
       } else {
@@ -72,7 +95,7 @@ Status List
       } else {
         this.emit('statusVb', "timeout has no or a non interger value using default value of " + timeout);
       }
-      this.client = new net.connect(this.port, this.ip, (function(_this) {
+      return this.client.connect(this.port, this.ip, (function(_this) {
         return function() {
           _this.client.setNoDelay(_this.noDelay);
           _this.emit("statusVb", "connecting to " + _this.ip + " " + _this.port);
@@ -91,37 +114,6 @@ Status List
           return _this.emit('status', 2);
         };
       })(this));
-      this.client.on('data', (function(_this) {
-        return function(resData) {
-          return _this.emit('data', resData);
-        };
-      })(this));
-      this.client.on('timeout', (function(_this) {
-        return function() {
-          _this.emit('status', 4);
-          return _this.emit('statusVb', "timeout on connection to " + _this.ip + " " + _this.port);
-        };
-      })(this));
-      this.client.on('end', (function(_this) {
-        return function() {
-          _this.emit('statusVb', "end");
-          _this.emit('status', 0);
-          if (_this.autoReconnect && !_this.manualDisconnect) {
-            return _this.reconnect();
-          } else {
-            return _this.manualDisconnect = false;
-          }
-        };
-      })(this));
-      return this.client.on('error', (function(_this) {
-        return function(data) {
-          _this.emit('statusVb', "error " + data);
-          _this.emit('status', 6);
-          if (_this.autoReconnect) {
-            return _this.reconnect();
-          }
-        };
-      })(this));
     };
 
     Connection.prototype.reconnect = function() {
@@ -135,9 +127,14 @@ Status List
     };
 
     Connection.prototype.disconnect = function() {
+      var error;
       this.manualDisconnect = true;
-      this.client.end();
-      return this.client.destroy();
+      try {
+        return this.client.end();
+      } catch (error1) {
+        error = error1;
+        return console.log("errrrrrrrror " + error);
+      }
     };
 
     Connection.prototype.write = function(data) {
