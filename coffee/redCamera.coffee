@@ -7,16 +7,15 @@ redFunctions = require('./redFunctions.js')
 class RedCameraConnection
   constructor: ()->
     @connection= new ipConnection()
-    @status= {
-      lists:[]
-      current:[]
-    }
+    @status= {}
     @id=null            #id number of the connection used for emit
     @ip=null
     @port=8888           #default port for RED camera's is 1111
     @timeout=1000        #a emit is made every 300ms
     @autoReconnect= yes  #in case of timeout
     @verbose= yes        #for log msg
+    #create a 200 char buffer filled with 0's
+    @buffer= Buffer.alloc(200,0,'base64')
 
     @connection.on('status',(data)=>
     #send it out
@@ -27,9 +26,10 @@ class RedCameraConnection
           @.status.connected = true
         else
           #if not connected return the value's to empty
-          @status.lists = []
-          @status.current = []
-          @status.notify = []
+          @status.lists = {}
+          @status.current = {}
+          @status.notify = {}
+          @status.connected = false
       if data != 2 then @.status.connected = false
     )
 
@@ -43,15 +43,11 @@ class RedCameraConnection
       @.emit('data',data)
       #add data to buffer
       @.buffer += data
-      @.buffer = handelData(@.buffer,@)
+      @.buffer = handelData(@buffer,@)
       )
-
-  #create a 200 char buffer filled with 0's
-  buffer: Buffer.alloc(200,0,'base64')
 
   #Connect Function                  #port is temp
   connect: (ip,autoReconnect,timeout,port) =>
-    console.log('connect')
     consoleOutput("connection triggerd to #{ip} \t
     autoReconnect:#{autoReconnect} \t timeout: #{timeout}")
     if port
@@ -74,39 +70,14 @@ class RedCameraConnection
       consoleOutput("connection failed (ip.js)")
       @.emit('statusVb', "connection failed")
       @.emit('status',6)
-      ###
-    #on a status update
-    @connection.on('status',(data)=>
-    #send it out
-      @.emit('status',data)
-      switch data
-        when 2
-          getInitialInfo()
-          @.status.connected = true
-        else
-          #if not connected return the value's to empty
-          @status.lists = []
-          @status.current = []
-          @status.notify = []
 
-      if data != 2 then @.status.connected = false
-      )
+  getStatus: =>
+    return @status
 
-  #on a verbose status
-    @.connection.on('statusVb',(data)=>
-      @.emit('statusVB',data)
-      consoleOutput(data))
-
-  #on data
-    @.connection.on('data',(data)=>
-      @.emit('data',data)
-      #add data to buffer
-      @.buffer += data
-      @.buffer = handelData(@.buffer,@)
-    )
-    ###
   disconnect: =>
-    @.connection.disconnect()
+    @connection.disconnect()
+    @status.connected = false
+
   sendCommand:(data) =>
     if @.status.connected
       msg = parseDataForTransmit(data)
@@ -149,7 +120,6 @@ class RedCameraConnection
     if target
       thisRef.emit(parsedString[2],parsedString[3],parsedString[4])
       thisRef.status[target][parsedString[3]] = parsedString[4]
-    console.log(thisRef.status)
     if parsedString[3] == "XXX"
       console.log('bla')
     #console.log(parsedString)

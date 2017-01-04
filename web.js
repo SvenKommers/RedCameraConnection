@@ -11,7 +11,7 @@
       app.get('/connect', function(req, res) {
         var id;
         id = req.query.id;
-        if (id) {
+        if (id & id <= cameras.length) {
           cameras[id].connect('127.0.0.1', true, 0, 8888);
           return res.end("connecting " + id + "\n");
         } else {
@@ -21,7 +21,7 @@
       app.get('/disconnect', function(req, res) {
         var id;
         id = req.query.id;
-        if (id) {
+        if (id & id <= cameras.length) {
           cameras[id].disconnect();
           return res.end("disconnecting1\n");
         } else {
@@ -31,14 +31,14 @@
       app.get('/status', function(req, res) {
         var id;
         id = req.query.id;
-        if (id) {
+        if (id & id <= cameras.length) {
           return res.status(200).json(cameras[id].status);
         } else {
           return res.status(404).json('no camera found, use ?id=');
         }
       });
       return app.listen(3000, function() {
-        return console.log('Example app listening on port 3000!');
+        return console.log('Red app listening on port 3000!');
       });
     }
   };

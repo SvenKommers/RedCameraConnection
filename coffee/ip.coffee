@@ -91,8 +91,7 @@ class Connection
     ,@.autoReconnectTime)
   disconnect: ()=>
     @.manualDisconnect = yes
-    @.client.end()
-    @.client.destroy()
+    @client.end()
   write: (data)=>
     @.client.write(data)
 

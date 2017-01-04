@@ -136,8 +136,7 @@ Status List
 
     Connection.prototype.disconnect = function() {
       this.manualDisconnect = true;
-      this.client.end();
-      return this.client.destroy();
+      return this.client.end();
     };
 
     Connection.prototype.write = function(data) {

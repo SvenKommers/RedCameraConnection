@@ -17,18 +17,17 @@
     function RedCameraConnection() {
       this.sendCommand = bind(this.sendCommand, this);
       this.disconnect = bind(this.disconnect, this);
+      this.getStatus = bind(this.getStatus, this);
       this.connect = bind(this.connect, this);
       this.connection = new ipConnection();
-      this.status = {
-        lists: [],
-        current: []
-      };
+      this.status = {};
       this.id = null;
       this.ip = null;
       this.port = 8888;
       this.timeout = 1000;
       this.autoReconnect = true;
       this.verbose = true;
+      this.buffer = Buffer.alloc(200, 0, 'base64');
       this.connection.on('status', (function(_this) {
         return function(data) {
           _this.emit('status', data);
@@ -38,9 +37,10 @@
               _this.status.connected = true;
               break;
             default:
-              _this.status.lists = [];
-              _this.status.current = [];
-              _this.status.notify = [];
+              _this.status.lists = {};
+              _this.status.current = {};
+              _this.status.notify = {};
+              _this.status.connected = false;
           }
           if (data !== 2) {
             return _this.status.connected = false;
@@ -62,10 +62,7 @@
       })(this));
     }
 
-    RedCameraConnection.prototype.buffer = Buffer.alloc(200, 0, 'base64');
-
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
-      console.log('connect');
       consoleOutput("connection triggerd to " + ip + " \t autoReconnect:" + autoReconnect + " \t timeout: " + timeout);
       if (port) {
         this.port = port;
@@ -86,43 +83,16 @@
         consoleOutput("connection failed (ip.js)");
         this.emit('statusVb', "connection failed");
         return this.emit('status', 6);
-
-        /*
-            #on a status update
-            @connection.on('status',(data)=>
-            #send it out
-        @.emit('status',data)
-        switch data
-          when 2
-            getInitialInfo()
-            @.status.connected = true
-          else
-            #if not connected return the value's to empty
-            @status.lists = []
-            @status.current = []
-            @status.notify = []
-        
-        if data != 2 then @.status.connected = false
-        )
-        
-          #on a verbose status
-            @.connection.on('statusVb',(data)=>
-        @.emit('statusVB',data)
-        consoleOutput(data))
-        
-          #on data
-            @.connection.on('data',(data)=>
-        @.emit('data',data)
-        #add data to buffer
-        @.buffer += data
-        @.buffer = handelData(@.buffer,@)
-            )
-         */
       }
     };
 
+    RedCameraConnection.prototype.getStatus = function() {
+      return this.status;
+    };
+
     RedCameraConnection.prototype.disconnect = function() {
-      return this.connection.disconnect();
+      this.connection.disconnect();
+      return this.status.connected = false;
     };
 
     RedCameraConnection.prototype.sendCommand = function(data) {
@@ -169,7 +139,6 @@
         thisRef.emit(parsedString[2], parsedString[3], parsedString[4]);
         thisRef.status[target][parsedString[3]] = parsedString[4];
       }
-      console.log(thisRef.status);
       if (parsedString[3] === "XXX") {
         return console.log('bla');
       }

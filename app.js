@@ -30,12 +30,9 @@
 
 
   /*
-  camera2.on('data',(data)->
-    console.log("app.js 2 (data): #{data}"))
-  camera2.on('status',(data)->
-    console.log("app.js 2 (status): #{data}"))
-  camera2.on('statusVB',(data)->
-    console.log("app.js 2 (statusVB): #{data}"))
+  setInterval(()->
+    console.log(connections[1].status)
+  ,1000)
    */
 
   process.stdin.setEncoding('utf8');
