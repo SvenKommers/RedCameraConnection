@@ -1,31 +1,29 @@
 
 Connection = require('./redCamera.js')
-camera1 = new Connection()
-camera2 = new Connection()
+server = require('./web.js')
+connections = []
+nrOfConnections = 2
 
+i = 1
+while i <= nrOfConnections
+  connections[i] = new Connection()
+  connections[i].on('data',(data)->
+    console.log("app.js #{connections.indexOf(this)} (data): #{data}"))
+  connections[i].on('status',(data)->
+    console.log("app.js #{connections.indexOf(this)} (status): #{data}"))
+  connections[i].on('statusVB',(data)->
+    console.log("app.js #{connections.indexOf(this)} (statusVB): #{data}"))
+  i++
 
-camera1.on('data',(data)->
-  console.log("app.js 1 (data): #{data}"))
-camera1.on('status',(data)->
-  console.log("app.js 1 (status): #{data}"))
-camera1.on('statusVB',(data)->
-  console.log("app.js 1 (statusVB): #{data}"))
-
+server.start(connections)
+###
 camera2.on('data',(data)->
   console.log("app.js 2 (data): #{data}"))
 camera2.on('status',(data)->
   console.log("app.js 2 (status): #{data}"))
 camera2.on('statusVB',(data)->
   console.log("app.js 2 (statusVB): #{data}"))
-
-
-camera1.connect('127.0.0.1',false,0,8888)
-
-
-setTimeout(()->
-  camera2.connect('127.0.0.1',false,0,8889)
-,1000)
-
+###
 
 
 process.stdin.setEncoding('utf8')
