@@ -29,43 +29,40 @@
       this.timeout = 1000;
       this.autoReconnect = true;
       this.verbose = true;
+      this.connection.on('status', (function(_this) {
+        return function(data) {
+          _this.emit('status', data);
+          switch (data) {
+            case 2:
+              getInitialInfo();
+              _this.status.connected = true;
+              break;
+            default:
+              _this.status.lists = [];
+              _this.status.current = [];
+              _this.status.notify = [];
+          }
+          if (data !== 2) {
+            return _this.status.connected = false;
+          }
+        };
+      })(this));
+      this.connection.on('statusVb', (function(_this) {
+        return function(data) {
+          _this.emit('statusVB', data);
+          return consoleOutput(data);
+        };
+      })(this));
+      this.connection.on('data', (function(_this) {
+        return function(data) {
+          _this.emit('data', data);
+          _this.buffer += data;
+          return _this.buffer = handelData(_this.buffer, _this);
+        };
+      })(this));
     }
 
-    console.log("" + RedCameraConnection.timeout);
-
     RedCameraConnection.prototype.buffer = Buffer.alloc(200, 0, 'base64');
-
-
-    /*
-    @connection.on('status',(data)=>
-    #send it out
-      @.emit('status',data)
-      switch data
-        when 2
-          getInitialInfo()
-          @.status.connected = true
-        else
-          #if not connected return the value's to empty
-          @status.lists = []
-          @status.current = []
-          @status.notify = []
-    
-      if data != 2 then @.status.connected = false
-      )
-    
-    #on a verbose status
-    @.connection.on('statusVb',(data)=>
-      @.emit('statusVB',data)
-      consoleOutput(data))
-    
-    #on data
-    @.connection.on('data',(data)=>
-      @.emit('data',data)
-      #add data to buffer
-      @.buffer += data
-      @.buffer = handelData(@.buffer,@)
-    )
-     */
 
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
       console.log('connect');
@@ -89,6 +86,38 @@
         consoleOutput("connection failed (ip.js)");
         this.emit('statusVb', "connection failed");
         return this.emit('status', 6);
+
+        /*
+            #on a status update
+            @connection.on('status',(data)=>
+            #send it out
+        @.emit('status',data)
+        switch data
+          when 2
+            getInitialInfo()
+            @.status.connected = true
+          else
+            #if not connected return the value's to empty
+            @status.lists = []
+            @status.current = []
+            @status.notify = []
+        
+        if data != 2 then @.status.connected = false
+        )
+        
+          #on a verbose status
+            @.connection.on('statusVb',(data)=>
+        @.emit('statusVB',data)
+        consoleOutput(data))
+        
+          #on data
+            @.connection.on('data',(data)=>
+        @.emit('data',data)
+        #add data to buffer
+        @.buffer += data
+        @.buffer = handelData(@.buffer,@)
+            )
+         */
       }
     };
 
