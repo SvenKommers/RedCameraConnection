@@ -1,0 +1,26 @@
+{
+  "name": "red_camera_control",
+  "version": "0.1.0",
+  "description": "Webserver to remote control Red cameras",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skommers/RedCameraConnection.git"
+  },
+  "keywords": [
+    "Red",
+    "Camera"
+  ],
+  "author": "Sven Kommers",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Skommers/RedCameraConnection/issues"
+  },
+  "homepage": "https://github.com/Skommers/RedCameraConnection#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
