@@ -34,6 +34,34 @@
 
     RedCameraConnection.prototype.buffer = Buffer.alloc(200, 0, 'base64');
 
+    RedCameraConnection.connection.on('status', function(data) {
+      RedCameraConnection.emit('status', data);
+      switch (data) {
+        case 2:
+          getInitialInfo();
+          RedCameraConnection.status.connected = true;
+          break;
+        default:
+          RedCameraConnection.status.lists = [];
+          RedCameraConnection.status.current = [];
+          RedCameraConnection.status.notify = [];
+      }
+      if (data !== 2) {
+        return RedCameraConnection.status.connected = false;
+      }
+    });
+
+    RedCameraConnection.connection.on('statusVb', function(data) {
+      RedCameraConnection.emit('statusVB', data);
+      return consoleOutput(data);
+    });
+
+    RedCameraConnection.connection.on('data', function(data) {
+      RedCameraConnection.emit('data', data);
+      RedCameraConnection.buffer += data;
+      return RedCameraConnection.buffer = handelData(RedCameraConnection.buffer, RedCameraConnection);
+    });
+
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
       consoleOutput("connection triggerd to " + ip + " \t autoReconnect:" + autoReconnect + " \t timeout: " + timeout);
       if (port) {
@@ -54,39 +82,8 @@
       if (!this.connection.connect(this.ip, this.port, this.timeout)) {
         consoleOutput("connection failed (ip.js)");
         this.emit('statusVb', "connection failed");
-        this.emit('status', 6);
+        return this.emit('status', 6);
       }
-      this.connection.on('status', (function(_this) {
-        return function(data) {
-          _this.emit('status', data);
-          switch (data) {
-            case 2:
-              getInitialInfo();
-              _this.status.connected = true;
-              break;
-            default:
-              _this.status.lists = [];
-              _this.status.current = [];
-              _this.status.notify = [];
-          }
-          if (data !== 2) {
-            return _this.status.connected = false;
-          }
-        };
-      })(this));
-      this.connection.on('statusVb', (function(_this) {
-        return function(data) {
-          _this.emit('statusVB', data);
-          return consoleOutput(data);
-        };
-      })(this));
-      return this.connection.on('data', (function(_this) {
-        return function(data) {
-          _this.emit('data', data);
-          _this.buffer += data;
-          return _this.buffer = handelData(_this.buffer, _this);
-        };
-      })(this));
     };
 
     RedCameraConnection.prototype.disconnect = function() {
