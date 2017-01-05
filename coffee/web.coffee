@@ -2,6 +2,17 @@ express = require('express')
 app = express()
 
 module.exports = start: (cameras) ->
+  i=1
+  while i <= cameras.length
+    #console.log(cameras[i])
+    #cameras[i].Connection.on("cameraStatusUpdate",(a,b,c)->
+      #console.log("statusUpdate #{a},#{b},#{c}")
+      #)
+    i++
+
+  app.get('/', (req, res) ->
+    res.sendFile(__dirname+'/public/index.html')
+  )
   app.get('/connect', (req, res) ->
     id = req.query.id
     if id & id <= cameras.length

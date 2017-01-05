@@ -8,6 +8,14 @@
 
   module.exports = {
     start: function(cameras) {
+      var i;
+      i = 1;
+      while (i <= cameras.length) {
+        i++;
+      }
+      app.get('/', function(req, res) {
+        return res.sendFile(__dirname + '/public/index.html');
+      });
       app.get('/connect', function(req, res) {
         var id;
         id = req.query.id;
