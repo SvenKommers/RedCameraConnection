@@ -10,9 +10,12 @@ module.exports = start: (cameras) ->
       #)
     i++
 
-  app.get('/', (req, res) ->
-    res.sendFile(__dirname+'/public/index.html')
-  )
+#  app.get('/', (req, res) ->
+#    res.sendFile(__dirname+'/public/index.html')
+#  )
+
+  app.use(express.static(__dirname + '/public'))
+
   app.get('/connect', (req, res) ->
     id = req.query.id
     if id & id <= cameras.length
@@ -36,8 +39,6 @@ module.exports = start: (cameras) ->
     else
       res.status(404).json('no camera found, use ?id=')
   )
-
-
 
   app.listen(3000, () ->
     console.log('Red app listening on port 3000!')

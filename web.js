@@ -13,9 +13,7 @@
       while (i <= cameras.length) {
         i++;
       }
-      app.get('/', function(req, res) {
-        return res.sendFile(__dirname + '/public/index.html');
-      });
+      app.use(express["static"](__dirname + '/public'));
       app.get('/connect', function(req, res) {
         var id;
         id = req.query.id;
