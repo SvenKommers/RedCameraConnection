@@ -1,0 +1,10 @@
+.footer-dark {
+  background-color: black;
+  color: gray;
+}
+a {
+  color: gray;
+}
+a:hover{
+  color:white;
+}
