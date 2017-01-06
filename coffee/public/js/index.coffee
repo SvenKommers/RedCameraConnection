@@ -87,6 +87,14 @@ loadWindows = (nrOfConnections) ->
                     <div class='col-xs-9'>1/60</div>
                 </div>
                 </p>
+                <div class='row'>
+                    <div class='col-xs-12'>
+
+                     <input type='range' id='shadow' min='-2000' max='2000' width='10px' class='slider' data-default-Value='0'><br>
+                     <canvas id='histogramSmall' width='127' height='32' style='border:1px solid #FFFFFF;'></canvas><br>
+                     <canvas id='vu' width='127' height='32'></canvas><br>
+                    </div>
+                  </div>
                 <p>
                 <div class='row'>
                     <div class='col-xs-12 text-center'><button type='button' class='btn btn-default btn-xs btn-warning'>EJECT</button>
