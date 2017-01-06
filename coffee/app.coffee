@@ -1,10 +1,10 @@
 server = require('./web.js')
 Connection = require('./redCamera.js')
 connections = []
-nrOfConnections = 2
+settings = {'nrOfConnections' : 10}
 
 i = 1
-while i <= nrOfConnections
+while i <= settings.nrOfConnections
   connections[i] = new Connection()
   connections[i].on('data',(data)->
     console.log("app.js #{connections.indexOf(this)} (data): #{data}"))
@@ -15,7 +15,7 @@ while i <= nrOfConnections
   i++
 
 
-server.start(connections)
+server.start(connections,settings)
 
 process.stdin.setEncoding('utf8')
 process.stdin.on('readable', () =>

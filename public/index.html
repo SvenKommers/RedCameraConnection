@@ -9,10 +9,11 @@
 
   <div class='navbar navbar-inverse navbar-static-top'>
     <div class='container'>
-    <div class='navbar-header text-right'>
-    <a href='/' class="navbar-brand">Red camera control</a>
-    <button type="button" class='navbar-toggle' data-toggle="collapse" data-target='.navbar-collapse'><span class='sr-only'>Toggle navigation</span><span class='icon-bar'></span><span class='icon-bar'></span><span class='icon-bar'></span></button>
-    </div>
+      <div class='navbar-header text-right'>
+        <a href='/' class="navbar-brand">Red camera control</a>
+        <p class="navbar-text">V0.1 by Sven Kommers</p>
+        <button type="button" class='navbar-toggle' data-toggle="collapse" data-target='.navbar-collapse'><span class='sr-only'>Toggle navigation</span><span class='icon-bar'></span><span class='icon-bar'></span><span class='icon-bar'></span></button>
+      </div>
 
       <ul class='nav navbar-nav navbar-right collapse navbar-collapse'>
         <li><a href='/'>Home</a></li>
@@ -20,7 +21,11 @@
         <li><a href='/'>Setup</a></li>
         <li><a href='#'  data-toggle='dropdown'><span class='sr-only'>Settngs</span><i class='glyphicon glyphicon-option-horizontal'></i><span class='caret'></span> </a>
           <ul class='dropdown-menu'>
-            <li><a href="#">Save Target IP's</a></li>
+            <li><a href="#">Save Target IP's<span class='caret'></span></a></li>
+              <ul id='saveSubMenu' class='collapse'>
+                <li><a href='#'>Local</a></li>
+                <li><a href='#'>on Server</a></li>
+              </ul>
             <li class='divider'></li>
             <li><a href="#">Bla</a></li>
             <li><a href="#">Blabla</a></li>
@@ -30,36 +35,48 @@
     </div>
   </div>
 
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12 well well-sm'>
+        <button type="button" class="btn btn-default btn-sm btn-warning">Pre-record</button>
+        <button type="button" class="btn btn-default btn-sm btn-danger">Record all</button>
+        <button type="button" class="btn btn-default btn-sm btn-primary">Stop all</button>
+      </div>
+    </div>
+  </div>
+
   <main class='container-fluid'>
-  <div class='row well well-lg'>
-    <div class='col-xs-12'>
-    <p class='lead'>Hier gaan alle bedieningsschermen komen. voor nu dus even een lorem ipsum tekst:
-    </p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tellus mi, aliquam sed tristique nec, elementum ac nunc. Morbi imperdiet ex arcu, nec congue diam congue hendrerit. Curabitur imperdiet tempor sem, vel eleifend odio scelerisque eget. Praesent nec fringilla dolor. Aliquam posuere sit amet purus id interdum. Etiam imperdiet ligula sem, quis lobortis mi condimentum sed. Nam eu hendrerit ex. Phasellus sed nulla vel enim dignissim molestie. Nunc eu ipsum ac enim fermentum porta id nec arcu. Ut bibendum vel enim commodo feugiat. Nullam scelerisque, tortor in luctus volutpat, tellus nibh finibus nunc, vel maximus nisl leo in enim. Pellentesque risus turpis, euismod id elit ut, porta posuere enim. Cras eleifend feugiat dignissim. Ut porttitor ligula felis, in blandit tellus blandit ac. Aliquam in odio sit amet ipsum efficitur varius.
-    Nulla ultricies nisl vitae gravida ultrices. In et metus sit amet magna sodales feugiat. Morbi a lacus ac ex aliquam posuere. Curabitur venenatis sapien at velit suscipit varius. Phasellus efficitur mollis interdum. Sed mi libero, sollicitudin fermentum fringilla sed, mollis tristique justo. Suspendisse facilisis hendrerit consequat. Integer et posuere mi, eu ullamcorper erat. Sed finibus justo ut pulvinar consectetur. Nunc risus est, vestibulum a pretium eu, iaculis eu purus.
-    Fusce ac enim risus. Donec lacinia molestie mauris, eget commodo turpis hendrerit eu. Nullam scelerisque quam eget magna semper, sed varius odio scelerisque. Morbi dapibus nunc sit amet nulla facilisis, a finibus nisl venenatis. Suspendisse dapibus mauris sit amet dui tempor, eget consequat leo suscipit. Nunc cursus nec mauris in malesuada. Vivamus felis justo, malesuada non vehicula in, pulvinar eu purus.
-    Sed quis lobortis ligula. Maecenas nisl libero, rhoncus quis ex non, interdum ultrices nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec hendrerit finibus tellus eu scelerisque. Aliquam molestie vitae arcu ac scelerisque. Curabitur venenatis maximus sollicitudin. Morbi vehicula aliquet elit et auctor. Aenean congue magna vestibulum mi pellentesque dignissim. Sed gravida mollis ipsum, non venenatis leo maximus ac. Nam pellentesque mattis augue nec vehicula. Vestibulum felis lectus, aliquam ut felis et, luctus pretium tellus. Aenean luctus arcu metus, eget bibendum nulla hendrerit ut. Praesent accumsan orci lectus, eget fermentum augue fermentum ut. Nulla luctus nunc non eros bibendum facilisis.
-    Donec eu dapibus purus, mollis tincidunt urna. Proin congue, magna eget auctor congue, mauris est bibendum urna, eu bibendum eros purus eget nulla. Nunc fermentum nisl nunc, vitae hendrerit magna rhoncus ut. Praesent porttitor erat vitae odio luctus tempus. Donec auctor, dui tristique rutrum fringilla, neque mauris laoreet orci, et malesuada est diam eu quam. Sed nec tortor molestie, imperdiet tortor non, cursus sem. Quisque varius semper metus. Pellentesque mattis tempor maximus. In sed justo urna. Curabitur tempor enim fermentum magna dignissim, vel sagittis ex laoreet. Quisque sit amet venenatis metus. Praesent dui leo, tincidunt sit amet turpis sed, scelerisque sollicitudin augue. Pellentesque id pretium ex, id pellentesque augue.
-  </div>
-</div>
+    <div class='row'>
+      <div id='cameraControllers' class='col-xs-12'>
+
+
+      </div>
+    </div>
   </main>
-<div class="container-fluid">
-  <div class="row well footer-dark">
-    <div class="col-md-2">
-      <h3>LINKS</h3>
-      <ul class='list-unstyled'>
-        <li><a href="https://www.red.com/downloads?category=Other&release=final" target="_blank">Redlink SDK</a></li>
-        <li><a href="http://www.svenkommers.nl/" target="_blank">Sven Kommers</a><li>
-      <ul>
+    <div class="container-fluid">
+    <div class="row well footer-dark">
+      <div class="container">
+      <div class="col-xs-4 col-s-3 col-md-2">
+        <h5>LINKS</h5>
+        <h6>
+        <ul class='list-unstyled'>
+          <li><a href="https://www.red.com/downloads?category=Other&release=final" target="_blank">Redlink SDK</a></li>
+          <li><a href="http://www.svenkommers.nl/" target="_blank">Sven Kommers</a><li>
+        </ul>
+      </h6>
+      </div>
+      <div class='col-xs-4 col-s-3 col-md-2'>
+        <h5>ABOUT</h5>
+        <h6>
+        Sven Kommers<br>
+        <i class='glyphicon glyphicon-envelope'></i> sven@svenkommers.nl<br>
+      </h6>
     </div>
-    <div class='col-md-2'>
-      <h3>ABOUT</h3>
-      Sven Kommers<br>
-      <i class='glyphicon glyphicon-envelope'></i> sven@svenkommers.nl<br>
-      <i class='glyphicon glyphicon-globe'></i> twitter me not<br>
+      </div>
     </div>
   </div>
-</div>
 <script src='js/jquery-3.1.1.min.js'></script>
 <script src='js/bootstrap.min.js'></script>
+<script src='js/index.js'></script>
 </body>
 </html>

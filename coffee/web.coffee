@@ -1,7 +1,7 @@
 express = require('express')
 app = express()
 
-module.exports = start: (cameras) ->
+module.exports = start: (cameras,settings) ->
   i=1
   while i <= cameras.length
     #console.log(cameras[i])
@@ -38,6 +38,9 @@ module.exports = start: (cameras) ->
       res.status(200).json(cameras[id].status)
     else
       res.status(404).json('no camera found, use ?id=')
+  )
+  app.get('/settings', (req, res) ->
+    res.status(200).json(settings)
   )
 
   app.listen(3000, () ->

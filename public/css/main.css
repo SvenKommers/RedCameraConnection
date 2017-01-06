@@ -1,3 +1,7 @@
+body{
+  background-color: #252525;
+}
+
 .footer-dark {
   background-color: black;
   color: gray;
@@ -7,4 +11,29 @@ a {
 }
 a:hover{
   color:white;
+}
+
+.cameraController{
+  display: inline-block;
+  margin-right: 1px;
+  width:165px;
+  background-color: #EEE;
+  border-color: black;
+
+}
+
+.panel-heading{
+
+}
+
+.cameraController:first-child{
+  margin-left: -10px;
+}
+
+.cameraController:last-child{
+  margin-right: -10px;
+}
+
+.connectButtonDiv{
+  padding-top: 5px;
 }

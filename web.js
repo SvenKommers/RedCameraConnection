@@ -7,7 +7,7 @@
   app = express();
 
   module.exports = {
-    start: function(cameras) {
+    start: function(cameras, settings) {
       var i;
       i = 1;
       while (i <= cameras.length) {
@@ -42,6 +42,9 @@
         } else {
           return res.status(404).json('no camera found, use ?id=');
         }
+      });
+      app.get('/settings', function(req, res) {
+        return res.status(200).json(settings);
       });
       return app.listen(3000, function() {
         return console.log('Red app listening on port 3000!');
