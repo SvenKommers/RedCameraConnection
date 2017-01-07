@@ -88,8 +88,8 @@ loadWindows = (nrOfConnections) ->
                 </div>
                 </p>
                 <div class='row'>
-                    <div class='col-xs-12'>
-
+                    <div class='col-xs-12 text-center'>
+                    <small>black level:</small>
                      <input type='range' id='shadow' min='-2000' max='2000' width='10px' class='slider' data-default-Value='0'><br>
                      <canvas id='histogramSmall' width='127' height='32' style='border:1px solid #FFFFFF;'></canvas><br>
                      <canvas id='vu' width='127' height='32'></canvas><br>
