@@ -15,6 +15,7 @@ while i <= settings.nrOfConnections
   i++
 
 
+
 server.start(connections,settings)
 
 process.stdin.setEncoding('utf8')

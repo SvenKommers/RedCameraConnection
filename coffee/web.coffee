@@ -2,13 +2,13 @@ express = require('express')
 app = express()
 
 module.exports = start: (cameras,settings) ->
-  i=1
-  while i <= cameras.length
-    #console.log(cameras[i])
+#  i=1
+#  while i <= cameras.length#
+#    console.log(cameras[i])
     #cameras[i].Connection.on("cameraStatusUpdate",(a,b,c)->
       #console.log("statusUpdate #{a},#{b},#{c}")
       #)
-    i++
+#    i++
 
 #  app.get('/', (req, res) ->
 #    res.sendFile(__dirname+'/public/index.html')
@@ -18,7 +18,9 @@ module.exports = start: (cameras,settings) ->
 
   app.get('/connect', (req, res) ->
     id = req.query.id
-    if id & id <= cameras.length
+    console.log(id)
+    console.log(cameras[id]);
+    if id && id <= cameras.length
       cameras[id].connect('127.0.0.1',true,0,8888)
       res.end("connecting #{id}\n")
     else
@@ -26,7 +28,7 @@ module.exports = start: (cameras,settings) ->
   )
   app.get('/disconnect', (req, res) ->
     id = req.query.id
-    if id & id <= cameras.length
+    if id && id <= cameras.length
       cameras[id].disconnect()
       res.end("disconnecting1\n")
     else
@@ -34,7 +36,7 @@ module.exports = start: (cameras,settings) ->
   )
   app.get('/status', (req, res) ->
     id = req.query.id
-    if id & id <= cameras.length
+    if id && id <= cameras.length
       res.status(200).json(cameras[id].status)
     else
       res.status(404).json('no camera found, use ?id=')
