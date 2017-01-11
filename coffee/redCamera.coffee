@@ -99,12 +99,10 @@ class RedCameraConnection
     while splitPosition != -1
       #create the substring to parse
       stringToParse = buffer.substring(0,splitPosition)
-      console.log("stringToParse: #{stringToParse}")
       #take the substring from the buffer
       buffer = buffer.substring(splitPosition+1)
       #parse string via regEx
       parsedString = redFunctions.parseLine(stringToParse)
-      console.log("parsedString #{parsedString}")
       #if the return value is valid
       if parsedString
         handelParsedString(parsedString,thisRef)
@@ -114,19 +112,21 @@ class RedCameraConnection
     return buffer
 
   handelParsedString = (parsedString,thisRef) =>
-    console.log("handelParsedString:#{parsedString}")
     target = null
-    if parsedString[2] == "D"
-      target = "lists"
-    if parsedString[2] == "C"
-      target = "current"
-    #need to send out msg
-    if target
-      thisRef.emit("cameraStatusUpdate",parsedString[2],parsedString[3],parsedString[4])
-      thisRef.status[target][parsedString[3]] = parsedString[4]
-    if parsedString[3] == "XXX"
-      console.log('bla')
-    #console.log(parsedString)
+    if parsedString[3] != "NOTIFY"
+      if parsedString[2] == "D"
+        target = "lists"
+      if parsedString[2] == "C"
+        target = "current"
+      #need to send out msg
+      if target
+        thisRef.emit("cameraStatusUpdate",parsedString[2],parsedString[3],parsedString[4])
+        thisRef.status[target][parsedString[3]] = parsedString[4]
+      if parsedString[3] == "XXX"
+        console.log('bla')
+      #console.log(parsedString)
+    else
+      console.log("handel notify msg")
 
   parseDataForTransmit = (data) ->
     if !redFunctions.checkIfValid(data)

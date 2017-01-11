@@ -117,10 +117,8 @@
       splitPosition = buffer.indexOf('\n');
       while (splitPosition !== -1) {
         stringToParse = buffer.substring(0, splitPosition);
-        console.log("stringToParse: " + stringToParse);
         buffer = buffer.substring(splitPosition + 1);
         parsedString = redFunctions.parseLine(stringToParse);
-        console.log("parsedString " + parsedString);
         if (parsedString) {
           handelParsedString(parsedString, thisRef);
         }
@@ -131,20 +129,23 @@
 
     handelParsedString = function(parsedString, thisRef) {
       var target;
-      console.log("handelParsedString:" + parsedString);
       target = null;
-      if (parsedString[2] === "D") {
-        target = "lists";
-      }
-      if (parsedString[2] === "C") {
-        target = "current";
-      }
-      if (target) {
-        thisRef.emit("cameraStatusUpdate", parsedString[2], parsedString[3], parsedString[4]);
-        thisRef.status[target][parsedString[3]] = parsedString[4];
-      }
-      if (parsedString[3] === "XXX") {
-        return console.log('bla');
+      if (parsedString[3] !== "NOTIFY") {
+        if (parsedString[2] === "D") {
+          target = "lists";
+        }
+        if (parsedString[2] === "C") {
+          target = "current";
+        }
+        if (target) {
+          thisRef.emit("cameraStatusUpdate", parsedString[2], parsedString[3], parsedString[4]);
+          thisRef.status[target][parsedString[3]] = parsedString[4];
+        }
+        if (parsedString[3] === "XXX") {
+          return console.log('bla');
+        }
+      } else {
+        return console.log("handel notify msg");
       }
     };
 
