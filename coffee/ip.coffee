@@ -23,7 +23,6 @@ class Connection
   client: null
   noDelay: true
   connect:(ip,port,timeout)=> #public connect function
-    console.log("ip.coffee connect:#{ip}")
     #check if the IP is valid, if not, return false
     if net.isIP(ip)
       @ip = ip
@@ -51,7 +50,6 @@ class Connection
     else
       @.emit('statusVb',"timeout has no or a non interger value using default value of #{@timeout}")
     #start te connection
-    console.log("just before @client new \t ip = #{ip}\t @ip=#{@ip}")
     @client = new net.connect(@port,@ip,()=>
       #no delay on for color timeing
       @.client.setNoDelay(@.noDelay)

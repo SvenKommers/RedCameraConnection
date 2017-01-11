@@ -16,7 +16,6 @@
         if (ip === null) {
           ip = '127.0.0.1';
         }
-        console.log("connecting " + id + " to " + ip);
         if (id && id <= cameras.length) {
           cameras[id].connect(ip, true, 1000, 8888);
           return res.end("connecting " + id + " to " + ip + "\n");

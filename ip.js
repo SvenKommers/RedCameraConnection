@@ -45,7 +45,6 @@ Status List
 
     Connection.prototype.connect = function(ip, port, timeout) {
       var ref;
-      console.log("ip.coffee connect:" + ip);
       if (net.isIP(ip)) {
         this.ip = ip;
       } else {
@@ -72,7 +71,6 @@ Status List
       } else {
         this.emit('statusVb', "timeout has no or a non interger value using default value of " + this.timeout);
       }
-      console.log("just before @client new \t ip = " + ip + "\t @ip=" + this.ip);
       this.client = new net.connect(this.port, this.ip, (function(_this) {
         return function() {
           _this.client.setNoDelay(_this.noDelay);

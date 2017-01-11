@@ -168,7 +168,9 @@
   };
 
   consoleOutput = function(data) {
-    return console.log(data);
+    if (RedCameraConnection.verbose) {
+      return console.log(data);
+    }
   };
 
   util.inherits(RedCameraConnection, eventEmitter);

@@ -139,8 +139,8 @@ getInitialInfo = ()->
   consoleOutput("sending get info")
 
 consoleOutput = (data) ->
-  #if RedCameraConnection.verbose
-  console.log(data)
+  if RedCameraConnection.verbose
+    console.log(data)
 
 
 

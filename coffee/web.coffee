@@ -21,7 +21,6 @@ module.exports = start: (cameras,settings) ->
     ip = req.query.ip
 
     if ip == null then ip = '127.0.0.1'
-    console.log("connecting #{id} to #{ip}")
     if id && id <= cameras.length
       cameras[id].connect(ip,true,1000,8888)
       res.end("connecting #{id} to #{ip}\n")
