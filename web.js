@@ -18,7 +18,7 @@
         }
         console.log("connecting " + id + " to " + ip);
         if (id && id <= cameras.length) {
-          cameras[id].connect(ip, true, 0, 8888);
+          cameras[id].connect(ip, true, 1000, 8888);
           return res.end("connecting " + id + " to " + ip + "\n");
         } else {
           return res.status(404).json('no camera found, use ?id=');

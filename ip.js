@@ -44,26 +44,35 @@ Status List
     Connection.prototype.noDelay = true;
 
     Connection.prototype.connect = function(ip, port, timeout) {
+      var ref;
       console.log("ip.coffee connect:" + ip);
       if (net.isIP(ip)) {
         this.ip = ip;
       } else {
-        this.emit('statusVb', ip + " is not a valid ip adress");
-        this.emit('status', 6);
-        return false;
+        if (net.isIP(this.ip)) {
+          this.emit('statusVb', "using default " + this.ip);
+        } else {
+          this.emit('statusVb', ip + " is not a valid ip adress");
+          this.emit('status', 6);
+        }
       }
       if ((typeof port === 'number' && (port % 1) === 0) && (0 < port && port < 65535)) {
         this.port = port;
       } else {
-        this.emit('statusVb', port + " is nog a valid port number, it must be a interger between 0 and 65535");
-        this.emit('status', 6);
-        return false;
+        if ((typeof this.port === 'number' && (this.port % 1) === 0) && (0 < (ref = this.port) && ref < 65535)) {
+          this.emit('statusVb', "using default port " + this.port);
+        } else {
+          this.emit('statusVb', port + " is nog a valid port number, it must be a interger between 0 and 65535");
+          this.emit('status', 6);
+          return false;
+        }
       }
       if (typeof timeout === 'number' && (timeout % 1) === 0) {
         this.timeout = timeout;
       } else {
-        this.emit('statusVb', "timeout has no or a non interger value using default value of " + timeout);
+        this.emit('statusVb', "timeout has no or a non interger value using default value of " + this.timeout);
       }
+      console.log("just before @client new \t ip = " + ip + "\t @ip=" + this.ip);
       this.client = new net.connect(this.port, this.ip, (function(_this) {
         return function() {
           _this.client.setNoDelay(_this.noDelay);

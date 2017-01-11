@@ -26,27 +26,33 @@ class Connection
     console.log("ip.coffee connect:#{ip}")
     #check if the IP is valid, if not, return false
     if net.isIP(ip)
-      @.ip = ip
+      @ip = ip
     else
-      @.emit('statusVb',"#{ip} is not a valid ip adress")
-      @.emit('status',6)
-      return false
+      if net.isIP(@ip)
+        @.emit('statusVb',"using default #{@ip}")
+      else
+        @.emit('statusVb',"#{ip} is not a valid ip adress")
+        @.emit('status',6)
 
     #check if Portnumber is valid, if not return false
     if (typeof port=='number' && (port%1)==0) &&  0 < port < 65535
-      @.port = port
+      @port = port
     else
-      @.emit('statusVb',"#{port} is nog a valid port number, it must be a interger between 0 and 65535")
-      @.emit('status',6)
-      return false
+      if (typeof @port=='number' && (@port%1)==0) &&  0 < @port < 65535
+        @.emit('statusVb',"using default port #{@port}")
+      else
+        @.emit('statusVb',"#{port} is nog a valid port number, it must be a interger between 0 and 65535")
+        @.emit('status',6)
+        return false
 
     #set timeout
     if (typeof timeout=='number' && (timeout%1)==0)
       @.timeout = timeout
     else
-      @.emit('statusVb',"timeout has no or a non interger value using default value of #{timeout}")
+      @.emit('statusVb',"timeout has no or a non interger value using default value of #{@timeout}")
     #start te connection
-    @.client = new net.connect(@.port,@.ip,()=>
+    console.log("just before @client new \t ip = #{ip}\t @ip=#{@ip}")
+    @client = new net.connect(@port,@ip,()=>
       #no delay on for color timeing
       @.client.setNoDelay(@.noDelay)
       @.emit("statusVb","connecting to #{@.ip} #{@.port}")

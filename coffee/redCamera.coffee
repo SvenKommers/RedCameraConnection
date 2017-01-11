@@ -67,7 +67,7 @@ class RedCameraConnection
       @.emit('statusVb', "timeout not a valid integer")
       @.emit('status',6)
     #open the connection        #####
-    if (!@connection.connect(@.ip,@.port,@.timeout))
+    if (!@connection.connect(@ip,@port,@timeout))
       consoleOutput("connection failed (ip.js)")
       @.emit('statusVb', "connection failed")
       @.emit('status',6)
