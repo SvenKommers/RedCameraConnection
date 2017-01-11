@@ -34,7 +34,7 @@ server.start(connections,settings)
 process.stdin.setEncoding('utf8')
 process.stdin.on('readable', () =>
   chunk = process.stdin.read()
-  pattr = /^([\w]+)\s?([0-9]+)?\s?(.+)?\n/
+  pattr = /^([\w]+)\s?([0-9]+)?\s?([^\s]+)?\s?([^\s]+)?\s?([^\s]+)?\n/
   res = pattr.exec(chunk)
 
   if chunk != null
@@ -54,6 +54,14 @@ process.stdin.on('readable', () =>
           connections[res[2]].connect(res[3],true,0,8888)
         catch error
           console.log("error while trying connect\n #{error}")
+      when "setstatus"
+        try
+          if res[3] == "C"
+            connections[res[2]].status.current[res[4]] = res[5]
+          else if res[3] == "D"
+            connections[res[2]].status.list[res[4]] = res[5]
+        catch error
+          console.log("error while trying setstatus\n #{error}")
       else
         console.log('not a option')
 );

@@ -45,7 +45,7 @@
     return function() {
       var chunk, error, pattr, res;
       chunk = process.stdin.read();
-      pattr = /^([\w]+)\s?([0-9]+)?\s?(.+)?\n/;
+      pattr = /^([\w]+)\s?([0-9]+)?\s?([^\s]+)?\s?([^\s]+)?\s?([^\s]+)?\n/;
       res = pattr.exec(chunk);
       if (chunk !== null) {
         switch (res[1]) {
@@ -71,6 +71,18 @@
             } catch (error1) {
               error = error1;
               return console.log("error while trying connect\n " + error);
+            }
+            break;
+          case "setstatus":
+            try {
+              if (res[3] === "C") {
+                return connections[res[2]].status.current[res[4]] = res[5];
+              } else if (res[3] === "D") {
+                return connections[res[2]].status.list[res[4]] = res[5];
+              }
+            } catch (error1) {
+              error = error1;
+              return console.log("error while trying setstatus\n " + error);
             }
             break;
           default:
