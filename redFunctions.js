@@ -34,7 +34,7 @@
 
   exports.parseLine = function(msg) {
     var pattr, res;
-    pattr = /#(?:\@[\w]+)?\$(\w{1,8}):([G|H|S|T|U|V|C|D]):(\w+):([a-zA-Z0-9|\\\:|\||,|&|:]+)?:\*[A-Z0-9]{2}/;
+    pattr = /#(?:\@[\w]+)?\$(\w{1,8}):([G|H|S|T|U|V|C|D]):(\w+):([a-zA-Z0-9=+\/|\\\:|\||,|&|:]+)?:\*[A-Z0-9]{2}/;
     res = pattr.exec(msg);
     return res;
   };

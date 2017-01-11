@@ -21,7 +21,7 @@ exports.checkIfValid = (msg) ->
   pattr.exec(msg)
 
 exports.parseLine = (msg) ->
-  pattr = /#(?:\@[\w]+)?\$(\w{1,8}):([G|H|S|T|U|V|C|D]):(\w+):([a-zA-Z0-9|\\\:|\||,|&|:]+)?:\*[A-Z0-9]{2}/
+  pattr = /#(?:\@[\w]+)?\$(\w{1,8}):([G|H|S|T|U|V|C|D]):(\w+):([a-zA-Z0-9=+/|\\\:|\||,|&|:]+)?:\*[A-Z0-9]{2}/
   res = pattr.exec(msg)
   #if !res
     #console.log("NOT matched msg with regEx: #{msg}")

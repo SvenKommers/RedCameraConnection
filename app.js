@@ -16,9 +16,6 @@
 
   while (i <= settings.nrOfConnections) {
     connections[i] = new Connection();
-    connections[i].on('data', function(data) {
-      return console.log("app.js " + (connections.indexOf(this)) + " (data): " + data);
-    });
     connections[i].on('status', function(data) {
       return console.log("app.js " + (connections.indexOf(this)) + " (status): " + data);
     });

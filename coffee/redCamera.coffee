@@ -99,10 +99,12 @@ class RedCameraConnection
     while splitPosition != -1
       #create the substring to parse
       stringToParse = buffer.substring(0,splitPosition)
+      console.log("stringToParse: #{stringToParse}")
       #take the substring from the buffer
       buffer = buffer.substring(splitPosition+1)
       #parse string via regEx
       parsedString = redFunctions.parseLine(stringToParse)
+      console.log("parsedString #{parsedString}")
       #if the return value is valid
       if parsedString
         handelParsedString(parsedString,thisRef)
@@ -112,6 +114,7 @@ class RedCameraConnection
     return buffer
 
   handelParsedString = (parsedString,thisRef) =>
+    console.log("handelParsedString:#{parsedString}")
     target = null
     if parsedString[2] == "D"
       target = "lists"

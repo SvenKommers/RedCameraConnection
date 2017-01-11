@@ -117,8 +117,10 @@
       splitPosition = buffer.indexOf('\n');
       while (splitPosition !== -1) {
         stringToParse = buffer.substring(0, splitPosition);
+        console.log("stringToParse: " + stringToParse);
         buffer = buffer.substring(splitPosition + 1);
         parsedString = redFunctions.parseLine(stringToParse);
+        console.log("parsedString " + parsedString);
         if (parsedString) {
           handelParsedString(parsedString, thisRef);
         }
@@ -129,6 +131,7 @@
 
     handelParsedString = function(parsedString, thisRef) {
       var target;
+      console.log("handelParsedString:" + parsedString);
       target = null;
       if (parsedString[2] === "D") {
         target = "lists";

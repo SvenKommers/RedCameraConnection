@@ -6,8 +6,8 @@ settings = {'nrOfConnections' : 10}
 i = 1
 while i <= settings.nrOfConnections
   connections[i] = new Connection()
-  connections[i].on('data',(data)->
-    console.log("app.js #{connections.indexOf(this)} (data): #{data}"))
+  #connections[i].on('data',(data)->
+    #console.log("app.js #{connections.indexOf(this)} (data): #{data}"))
   connections[i].on('status',(data)->
     console.log("app.js #{connections.indexOf(this)} (status): #{data}"))
   connections[i].on('statusVB',(data)->
