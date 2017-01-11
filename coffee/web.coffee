@@ -18,11 +18,13 @@ module.exports = start: (cameras,settings) ->
 
   app.get('/connect', (req, res) ->
     id = req.query.id
-    console.log(id)
-    console.log(cameras[id]);
+    ip = req.query.ip
+
+    if ip == null then ip = '127.0.0.1'
+    console.log("connecting #{id} to #{ip}")
     if id && id <= cameras.length
-      cameras[id].connect('127.0.0.1',true,0,8888)
-      res.end("connecting #{id}\n")
+      cameras[id].connect(ip,true,0,8888)
+      res.end("connecting #{id} to #{ip}\n")
     else
       res.status(404).json('no camera found, use ?id=')
   )

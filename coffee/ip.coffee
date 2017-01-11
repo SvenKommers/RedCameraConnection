@@ -22,7 +22,8 @@ class Connection
   autoReconnectTime: 5000
   client: null
   noDelay: true
-  connect:(ip=@.ip,port=@.port,timeout=@.timeout)=> #public connect function
+  connect:(ip,port,timeout)=> #public connect function
+    console.log("ip.coffee connect:#{ip}")
     #check if the IP is valid, if not, return false
     if net.isIP(ip)
       @.ip = ip

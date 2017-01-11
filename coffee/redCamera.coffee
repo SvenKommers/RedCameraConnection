@@ -50,17 +50,18 @@ class RedCameraConnection
   connect: (ip,autoReconnect,timeout,port) =>
     consoleOutput("connection triggerd to #{ip} \t
     autoReconnect:#{autoReconnect} \t timeout: #{timeout}")
+    @ip = ip
     if port
       @port = port
     #check if autoReconnect = boolean
     if typeof(autoReconnect) == "boolean"
-      @.autoReconnect = autoReconnect
+      @autoReconnect = autoReconnect
     else
       consoleOutput("none or none valid autoReconnect value using te default setting #{autoReconnect}")
 
     #check if timeout is interger
     if (typeof timeout=='number' && (timeout%1)==0) && timeout >= 0
-      @.timeout = timeout
+      @timeout = timeout
     else
       consoleOutput("timeout not a valid integer")
       @.emit('statusVb', "timeout not a valid integer")
@@ -135,8 +136,8 @@ getInitialInfo = ()->
   consoleOutput("sending get info")
 
 consoleOutput = (data) ->
-  if RedCameraConnection.verbose
-    console.log(data)
+  #if RedCameraConnection.verbose
+  console.log(data)
 
 
 

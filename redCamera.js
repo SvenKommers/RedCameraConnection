@@ -64,6 +64,7 @@
 
     RedCameraConnection.prototype.connect = function(ip, autoReconnect, timeout, port) {
       consoleOutput("connection triggerd to " + ip + " \t autoReconnect:" + autoReconnect + " \t timeout: " + timeout);
+      this.ip = ip;
       if (port) {
         this.port = port;
       }
@@ -163,9 +164,7 @@
   };
 
   consoleOutput = function(data) {
-    if (RedCameraConnection.verbose) {
-      return console.log(data);
-    }
+    return console.log(data);
   };
 
   util.inherits(RedCameraConnection, eventEmitter);

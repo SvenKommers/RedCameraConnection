@@ -10,13 +10,16 @@
     start: function(cameras, settings) {
       app.use(express["static"](__dirname + '/public'));
       app.get('/connect', function(req, res) {
-        var id;
+        var id, ip;
         id = req.query.id;
-        console.log(id);
-        console.log(cameras[id]);
+        ip = req.query.ip;
+        if (ip === null) {
+          ip = '127.0.0.1';
+        }
+        console.log("connecting " + id + " to " + ip);
         if (id && id <= cameras.length) {
-          cameras[id].connect('127.0.0.1', true, 0, 8888);
-          return res.end("connecting " + id + "\n");
+          cameras[id].connect(ip, true, 0, 8888);
+          return res.end("connecting " + id + " to " + ip + "\n");
         } else {
           return res.status(404).json('no camera found, use ?id=');
         }

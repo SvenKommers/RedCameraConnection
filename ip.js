@@ -44,15 +44,7 @@ Status List
     Connection.prototype.noDelay = true;
 
     Connection.prototype.connect = function(ip, port, timeout) {
-      if (ip == null) {
-        ip = this.ip;
-      }
-      if (port == null) {
-        port = this.port;
-      }
-      if (timeout == null) {
-        timeout = this.timeout;
-      }
+      console.log("ip.coffee connect:" + ip);
       if (net.isIP(ip)) {
         this.ip = ip;
       } else {
