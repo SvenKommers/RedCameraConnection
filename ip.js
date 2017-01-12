@@ -43,6 +43,8 @@ Status List
 
     Connection.prototype.noDelay = true;
 
+    Connection.prototype._timeout = null;
+
     Connection.prototype.connect = function(ip, port, timeout) {
       var ref;
       if (net.isIP(ip)) {
@@ -126,7 +128,7 @@ Status List
     Connection.prototype.reconnect = function() {
       this.emit('status', 5);
       this.emit('statusVb', "reconnecting to " + this.ip + " " + this.port + " in " + (this.autoReconnectTime / 1000) + " second(s)");
-      return setTimeout((function(_this) {
+      return this._timeout = setTimeout((function(_this) {
         return function() {
           return _this.connect();
         };
@@ -135,6 +137,7 @@ Status List
 
     Connection.prototype.disconnect = function() {
       this.manualDisconnect = true;
+      clearTimeout(this._timeout);
       return this.client.end();
     };
 

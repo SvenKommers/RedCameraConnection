@@ -28,7 +28,7 @@
         id = req.query.id;
         if (id && id <= cameras.length) {
           cameras[id].disconnect();
-          return res.end("disconnecting1\n");
+          return res.end("disconnecting " + id + "\n");
         } else {
           return res.status(404).json('no camera found, use ?id=');
         }

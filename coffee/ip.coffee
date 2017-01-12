@@ -22,6 +22,7 @@ class Connection
   autoReconnectTime: 5000
   client: null
   noDelay: true
+  _timeout: null
   connect:(ip,port,timeout)=> #public connect function
     #check if the IP is valid, if not, return false
     if net.isIP(ip)
@@ -91,11 +92,12 @@ class Connection
   reconnect: ()=>
     @.emit('status',5)
     @.emit('statusVb',"reconnecting to #{@.ip} #{@.port} in #{@.autoReconnectTime/1000} second(s)")
-    setTimeout(()=>
+    @_timeout = setTimeout(()=>
       @.connect()
-    ,@.autoReconnectTime)
+    ,@autoReconnectTime)
   disconnect: ()=>
     @.manualDisconnect = yes
+    clearTimeout(@_timeout)
     @client.end()
   write: (data)=>
     @.client.write(data)

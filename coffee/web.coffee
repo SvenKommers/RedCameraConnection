@@ -31,7 +31,7 @@ module.exports = start: (cameras,settings) ->
     id = req.query.id
     if id && id <= cameras.length
       cameras[id].disconnect()
-      res.end("disconnecting1\n")
+      res.end("disconnecting #{id}\n")
     else
       res.status(404).json('no camera found, use ?id=')
   )
