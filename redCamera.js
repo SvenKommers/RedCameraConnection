@@ -23,7 +23,7 @@
       this.status = {};
       this.id = null;
       this.ip = null;
-      this.port = 8888;
+      this.port = 1111;
       this.timeout = 1000;
       this.autoReconnect = true;
       this.verbose = true;
@@ -33,8 +33,8 @@
           _this.emit('status', data);
           switch (data) {
             case 2:
-              getInitialInfo();
               _this.status.connected = true;
+              getInitialInfo(_this);
               break;
             default:
               _this.status.lists = {};
@@ -96,17 +96,19 @@
       return this.status.connected = false;
     };
 
-    RedCameraConnection.prototype.sendCommand = function(data) {
-      var msg;
+    RedCameraConnection.prototype.sendCommand = function(type, value) {
+      var msg, msgres;
       if (this.status.connected) {
-        msg = parseDataForTransmit(data);
-        if (msg === false) {
-          consoleOutput("msg Not Valid: " + data);
-          return this.emit('statusVB', "msg Not Valid: " + data);
+        msg = "$EXT:" + type + ":" + value + ":";
+        msgres = parseDataForTransmit(msg);
+        if (msgres === false) {
+          consoleOutput("msg Not Valid: " + msg);
+          return this.emit('statusVB', "msg Not Valid: " + msg);
         } else {
-          return this.connection.write(msg);
+          return this.connection.write(msgres);
         }
       } else {
+        console.log(this.status);
         consoleOutput("not connected to " + this.ip + " so can't send a msg");
         return this.emit('statusVB', "not connected to " + this.ip + " so can't send a msg");
       }
@@ -145,7 +147,8 @@
           return console.log('bla');
         }
       } else {
-        return console.log("handel notify msg");
+        console.log("handel notify msg");
+        return console.log(parsedString);
       }
     };
 
@@ -155,7 +158,9 @@
         return false;
       }
       checksum = redFunctions.calcChecksum(data);
+      data = "#" + data;
       data += "*" + checksum;
+      data += "\n";
       return data;
     };
 
@@ -163,9 +168,23 @@
 
   })();
 
-  getInitialInfo = function() {
-    return consoleOutput("sending get info");
-  };
+  getInitialInfo = (function(_this) {
+    return function(thisRef) {
+      var i, j, len, len1, ref, ref1, results, value;
+      ref = redFunctions.gValues;
+      for (i = 0, len = ref.length; i < len; i++) {
+        value = ref[i];
+        thisRef.sendCommand("G", value);
+      }
+      ref1 = redFunctions.hValues;
+      results = [];
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        value = ref1[j];
+        results.push(thisRef.sendCommand("H", value));
+      }
+      return results;
+    };
+  })(this);
 
   consoleOutput = function(data) {
     if (RedCameraConnection.verbose) {

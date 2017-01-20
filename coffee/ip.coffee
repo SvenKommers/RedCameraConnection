@@ -94,7 +94,7 @@ class Connection
     @.emit('statusVb',"reconnecting to #{@.ip} #{@.port} in #{@.autoReconnectTime/1000} second(s)")
     @_timeout = setTimeout(()=>
       @.connect()
-    ,@autoReconnectTime)
+    ,@tautoReconnectTime)
   disconnect: ()=>
     @.manualDisconnect = yes
     clearTimeout(@_timeout)

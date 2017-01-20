@@ -10,7 +10,7 @@ class RedCameraConnection
     @status= {}
     @id=null            #id number of the connection used for emit
     @ip=null
-    @port=8888           #default port for RED camera's is 1111
+    @port=1111           #default port for RED camera's is 1111
     @timeout=1000        #a emit is made every 300ms
     @autoReconnect= yes  #in case of timeout
     @verbose= yes        #for log msg
@@ -22,8 +22,8 @@ class RedCameraConnection
       @.emit('status',data)
       switch data
         when 2
-          getInitialInfo()
           @.status.connected = true
+          getInitialInfo(@)
         else
           #if not connected return the value's to empty
           @status.lists = {}
@@ -79,15 +79,17 @@ class RedCameraConnection
     @connection.disconnect()
     @status.connected = false
 
-  sendCommand:(data) =>
-    if @.status.connected
-      msg = parseDataForTransmit(data)
-      if msg == false
-        consoleOutput("msg Not Valid: #{data}")
-        @.emit('statusVB',"msg Not Valid: #{data}")
+  sendCommand:(type,value) =>
+    if @status.connected
+      msg = "$EXT:#{type}:#{value}:"
+      msgres = parseDataForTransmit(msg)
+      if msgres == false
+        consoleOutput("msg Not Valid: #{msg}")
+        @.emit('statusVB',"msg Not Valid: #{msg}")
       else
-        @.connection.write(msg)
+        @connection.write(msgres)
     else
+        console.log(@.status)
         consoleOutput("not connected to #{@.ip} so can't send a msg")
         @.emit('statusVB',"not connected to #{@.ip} so can't send a msg")
 
@@ -127,16 +129,23 @@ class RedCameraConnection
       #console.log(parsedString)
     else
       console.log("handel notify msg")
+      console.log(parsedString)
 
   parseDataForTransmit = (data) ->
     if !redFunctions.checkIfValid(data)
       return false
     checksum = redFunctions.calcChecksum(data)
+    data = "##{data}"
     data += "*" + checksum
+    data += "\n"
     return data
 
-getInitialInfo = ()->
-  consoleOutput("sending get info")
+getInitialInfo = (thisRef)=>
+  for value in redFunctions.gValues
+      thisRef.sendCommand("G",value);
+    for value in redFunctions.hValues
+      thisRef.sendCommand("H",value);
+
 
 consoleOutput = (data) ->
   if RedCameraConnection.verbose

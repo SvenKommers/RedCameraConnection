@@ -67,7 +67,7 @@
             break;
           case "connect":
             try {
-              return connections[res[2]].connect(res[3], true, 0, 8888);
+              return connections[res[2]].connect(res[3], true, 0, 1111);
             } catch (error1) {
               error = error1;
               return console.log("error while trying connect\n " + error);

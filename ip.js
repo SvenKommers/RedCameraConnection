@@ -132,7 +132,7 @@ Status List
         return function() {
           return _this.connect();
         };
-      })(this), this.autoReconnectTime);
+      })(this), this.tautoReconnectTime);
     };
 
     Connection.prototype.disconnect = function() {

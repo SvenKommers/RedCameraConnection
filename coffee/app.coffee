@@ -51,7 +51,7 @@ process.stdin.on('readable', () =>
           console.log("error while trying disconnect\n #{error}")
       when "connect"
         try
-          connections[res[2]].connect(res[3],true,0,8888)
+          connections[res[2]].connect(res[3],true,0,1111)
         catch error
           console.log("error while trying connect\n #{error}")
       when "setstatus"
