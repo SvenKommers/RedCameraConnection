@@ -3,10 +3,25 @@ $(document).ready ->
   init()
 
 init = () ->
-  $.get("/settings", (data, status)->
-    status = data
-    loadWindows(status.nrOfConnections)
+  $.get("/settings", (data, res)=>
+    if res == "success"
+      status = data
+      loadWindows(status.nrOfConnections)
+      getFirstRoundOfData(status.nrOfConnections)
+    else
+      alert("no connection to server")
   )
+
+getFirstRoundOfData = (nrOfConnections) =>
+  iii = 1
+  while  iii <=  nrOfConnections
+    jjj = iii
+    $.get("/status?id=#{iii}",(data, res)=>
+      if res == "success"
+        console.log(status)
+        status[jjj] = data
+      )
+    iii++
 
 
 loadWindows = (nrOfConnections) ->
@@ -14,7 +29,6 @@ loadWindows = (nrOfConnections) ->
   $("#cameraControllers").text("")
   i = 1
   while i <= nrOfConnections
-    console.log(i)
     #create a new Iframe for every camera availible
     $("#cameraControllers").append("
     <div class='panel panel-info cameraController'>

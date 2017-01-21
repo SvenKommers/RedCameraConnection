@@ -37,8 +37,19 @@ module.exports = start: (cameras,settings) ->
   )
   app.get('/status', (req, res) ->
     id = req.query.id
-    if id && id <= cameras.length
+    if id && 0 < id <= cameras.length
       res.status(200).json(cameras[id].status)
+    else if id == "0"
+      statusRes = []
+      iii = 1
+      while iii <= cameras.length
+        tempStatus = cameras[iii]
+        if tempStatus
+          console.log(tempStatus.status)
+          tempStatus = tempStatus.status
+          statusRes[iii]= tempStatus
+        iii++
+      res.status(200).json(statusRes)
     else
       res.status(404).json('no camera found, use ?id=')
   )

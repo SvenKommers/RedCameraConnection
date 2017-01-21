@@ -34,10 +34,23 @@
         }
       });
       app.get('/status', function(req, res) {
-        var id;
+        var id, iii, statusRes, tempStatus;
         id = req.query.id;
-        if (id && id <= cameras.length) {
+        if (id && (0 < id && id <= cameras.length)) {
           return res.status(200).json(cameras[id].status);
+        } else if (id === "0") {
+          statusRes = [];
+          iii = 1;
+          while (iii <= cameras.length) {
+            tempStatus = cameras[iii];
+            if (tempStatus) {
+              console.log(tempStatus.status);
+              tempStatus = tempStatus.status;
+              statusRes[iii] = tempStatus;
+            }
+            iii++;
+          }
+          return res.status(200).json(statusRes);
         } else {
           return res.status(404).json('no camera found, use ?id=');
         }
