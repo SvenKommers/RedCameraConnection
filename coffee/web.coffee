@@ -41,11 +41,10 @@ module.exports = start: (cameras,settings) ->
       res.status(200).json(cameras[id].status)
     else if id == "0"
       statusRes = []
-      iii = 1
+      iii = 0
       while iii <= cameras.length
-        tempStatus = cameras[iii]
+        tempStatus = cameras[iii+1]
         if tempStatus
-          console.log(tempStatus.status)
           tempStatus = tempStatus.status
           statusRes[iii]= tempStatus
         iii++

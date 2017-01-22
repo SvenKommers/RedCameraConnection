@@ -7,7 +7,7 @@ init = () ->
   $.get("/settings", (data, res)=>
     if res == "success"
       status = data
-      loadWindows(status.nrOfConnections)
+      #loadWindows(status.nrOfConnections)
       getFirstRoundOfData(status.nrOfConnections)
     else
       alert("no connection to server")
@@ -16,8 +16,8 @@ init = () ->
 getFirstRoundOfData = (nrOfConnections) =>
   $.get("/status?id=0",(data, res)=>
     if res == "success"
-      console.log(data)
       cameras = data
+      console.log(cameras)
     )
 
 
