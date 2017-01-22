@@ -1,4 +1,5 @@
 status = null
+cameras = null
 $(document).ready ->
   init()
 
@@ -13,15 +14,11 @@ init = () ->
   )
 
 getFirstRoundOfData = (nrOfConnections) =>
-  iii = 1
-  while  iii <=  nrOfConnections
-    jjj = iii
-    $.get("/status?id=#{iii}",(data, res)=>
-      if res == "success"
-        console.log(status)
-        status[jjj] = data
-      )
-    iii++
+  $.get("/status?id=0",(data, res)=>
+    if res == "success"
+      console.log(data)
+      cameras = data
+    )
 
 
 loadWindows = (nrOfConnections) ->

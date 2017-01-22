@@ -116,10 +116,12 @@ Status List
       })(this));
       return this.client.on('error', (function(_this) {
         return function(data) {
-          _this.emit('statusVb', "error " + data);
+          _this.emit('statusVb', "Error " + data);
           _this.emit('status', 6);
-          if (_this.autoReconnect) {
+          if (_this.autoReconnect && !_this.manualDisconnect) {
             return _this.reconnect();
+          } else {
+            return _this.manualDisconnect = false;
           }
         };
       })(this));

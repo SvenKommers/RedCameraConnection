@@ -84,10 +84,12 @@ class Connection
         @.manualDisconnect = no
       )
     @.client.on('error',(data)=>
-      @.emit('statusVb',"error #{data}")
+      @.emit('statusVb',"Error #{data}")
       @.emit('status',6)
-      if @.autoReconnect
+      if @autoReconnect && !@manualDisconnect
         @.reconnect()
+      else
+        @manualDisconnect = no
       )
   reconnect: ()=>
     @.emit('status',5)
@@ -96,7 +98,7 @@ class Connection
       @.connect()
     ,@tautoReconnectTime)
   disconnect: ()=>
-    @.manualDisconnect = yes
+    @manualDisconnect = yes
     clearTimeout(@_timeout)
     @client.end()
   write: (data)=>
